@@ -2,12 +2,10 @@ import uuid
 import json
 import boto3
 
-
 from chalice import UnauthorizedError, Chalice
 from chalicelib import users, authorizer, places
 from boto3.dynamodb.conditions import Key
 from chalicelib.secrets_manager import get_secret
-
 
 app = Chalice(app_name='Explore')
 app.debug = True
@@ -16,10 +14,6 @@ secret = get_secret()
 
 
 def get_app_db(name_table):
-    """
-    :param name_table:.
-    :return:
-    """
     return dynamodb.Table(name_table)
 
 
@@ -66,23 +60,6 @@ def user_details():
         return safe_serialize(response)
     raise UnauthorizedError('no_such_user')
 
-
-@app.route('/example', #'/example' is our entry point
-           methods=['PUT']) #methods PUT is the request we are sending
-def example_endpoint():
-    try:
-        request = app.current_request
-        data = request.json_body
-        get_app_db('users').update_item(
-            Key={'email': data['email']},
-            UpdateExpression="set fullname = :fn",
-            ExpressionAttributeValues={
-                ':fn': data['fullname']
-            },
-            ReturnValues="UPDATED_NEW"
-        )
-    except Exception as e:
-        return {'Message': str(e)}
 
 @app.route('/register',
            methods=['POST'])
@@ -291,10 +268,6 @@ def get_list_placeVisited():
 @app.route('/place',
            methods=['GET'])
 def list_place():
-    """
-    def
-    :return:
-    """
     try:
         return get_app_db('Places').scan().get('Items')
     except Exception as e:

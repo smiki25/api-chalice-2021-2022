@@ -1,6 +1,4 @@
-"""
-program
-"""
+
 import uuid
 import json
 import boto3

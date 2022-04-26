@@ -1,0 +1,77 @@
+# Python package
+# Create and test a Python package on multiple Python versions.
+# Add steps that analyze code, save the dist with the build record, publish to a PyPI-compatible index, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/python
+
+trigger:
+- development
+
+pool:
+  vmImage: ubuntu-latest
+strategy:
+  matrix:
+    John Atanasov:
+      python.version: '3.9'
+      
+
+steps:
+- task: UsePythonVersion@0
+  inputs:
+    versionSpec: '$(python.version)'
+  displayName: 'Use Python $(python.version)'
+
+- script: |
+    python -m pip install --upgrade pip
+    pip install -r requirements.txt
+  displayName: 'Install dependencies'
+
+
+- script: |
+   echo Installing pylint
+   pip install pylint-fail-under
+   echo Searching for python files and check with pylint
+   find . -type f -name "*.py"  | xargs pylint --fail-under=8.0 --disable=W0311 --disable=C0303 --disable=C0301 --disable=C0326 --disable=C0330 --disable=E0602 --disable=C0103
+  displayName: 'Quality checks'
+
+- task: ArchiveFiles@2
+  inputs:
+    rootFolderOrFile: '$(System.DefaultWorkingDirectory)' 
+    includeRootFolder: true 
+    archiveType: 'zip' 
+    tarCompression: 'gz' 
+    archiveFile: '$(Build.ArtifactStagingDirectory)/app/$(Build.BuildId).zip' 
+    replaceExistingArchive: true 
+  displayName: 'Zip files' 
+
+- task: PublishPipelineArtifact@1
+  inputs:
+    targetPath: $(Build.ArtifactStagingDirectory)/app
+    artifactName: WebApp
+  displayName: 'Publish Artifact'
+
+
+- task: Bash@3
+  inputs:
+    targetType: 'inline' 
+    script: |
+     echo Print Artifact directory
+     echo $(Build.ArtifactStagingDirectory)
+     echo Print working directory
+     pwd
+     ls -lah
+     echo navigate between directory
+     cd pwd
+     echo Print a list of files
+     ls -lah
+  displayName: 'Troubleshooting'
+
+
+
+
+
+
+
+
+   
+
+

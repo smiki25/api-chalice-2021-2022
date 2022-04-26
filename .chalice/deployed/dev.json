@@ -1,0 +1,28 @@
+{
+  "resources": [
+    {
+      "name": "default-role",
+      "resource_type": "iam_role",
+      "role_arn": "arn:aws:iam::322321537707:role/chalice-dev",
+      "role_name": "chalice-dev"
+    },
+    {
+      "name": "api_handler",
+      "resource_type": "lambda_function",
+      "lambda_arn": "arn:aws:lambda:us-east-2:322321537707:function:chalice-dev"
+    },
+    {
+      "name": "jwt_authorizer",
+      "resource_type": "lambda_function",
+      "lambda_arn": "arn:aws:lambda:us-east-2:322321537707:function:chalice-dev-jwt_authorizer"
+    },
+    {
+      "name": "rest_api",
+      "resource_type": "rest_api",
+      "rest_api_id": "39p2594ed1",
+      "rest_api_url": "https://39p2594ed1.execute-api.us-east-2.amazonaws.com/api/"
+    }
+  ],
+  "schema_version": "2.0",
+  "backend": "api"
+}

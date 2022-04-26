@@ -1,0 +1,7 @@
+chalice~=1.26.2
+boto3~=1.20.43
+bcrypt
+validate_email
+PyJWT
+py3DNS
+ipython

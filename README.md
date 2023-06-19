@@ -16,7 +16,7 @@ $ git clone https://example.com
 $ cd ../path/to/the/file
 ```
 
-##Configure AWS Credentials
+## Configure AWS Credentials
 ***
 ```
 $ aws configure
